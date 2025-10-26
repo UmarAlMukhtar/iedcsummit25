@@ -143,6 +143,65 @@ const DynamicForm = ({
     }`;
 
     switch (field.type) {
+      case 'html':
+        return (
+          <div dangerouslySetInnerHTML={{ __html: field.content }} />
+        );
+
+      case 'file':
+        return (
+          <div className="file-upload-container">
+            <input
+              type="file"
+              name={field.name}
+              onChange={(e) => {
+                const file = e.target.files[0];
+                setFormData(prev => ({
+                  ...prev,
+                  [field.name]: file
+                }));
+                if (errors[field.name]) {
+                  setErrors(prev => ({
+                    ...prev,
+                    [field.name]: ''
+                  }));
+                }
+              }}
+              accept={field.accept}
+              className="hidden"
+              id={`file-${field.name}`}
+              disabled={field.disabled}
+            />
+            <label
+              htmlFor={`file-${field.name}`}
+              className={`flex items-center justify-center w-full px-4 py-6 border-2 border-dashed rounded-lg cursor-pointer transition ${
+                errors[field.name]
+                  ? 'border-red-500 bg-red-50'
+                  : 'border-blue-300 bg-blue-50 hover:bg-blue-100'
+              }`}
+            >
+              <div className="text-center">
+                <svg className="mx-auto h-12 w-12 text-blue-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                  <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                <p className="mt-2 text-sm text-blue-600 font-gilroy-medium">
+                  {formData[field.name]?.name || 'Click to upload or drag and drop'}
+                </p>
+                {field.accept && (
+                  <p className="text-xs text-blue-400 mt-1">
+                    {field.accept.split(',').join(', ').toUpperCase()}
+                  </p>
+                )}
+              </div>
+            </label>
+            {formData[field.name] && (
+              <p className="mt-2 text-sm text-green-600 font-gilroy-medium">
+                ✓ {formData[field.name].name}
+              </p>
+            )}
+          </div>
+        );
+
       case 'textarea':
         return (
           <textarea
@@ -290,7 +349,7 @@ const DynamicForm = ({
             <div className="space-y-8">
               {fields.map((field, index) => (
                 <div key={field.name || index}>
-                  {field.type !== 'checkbox' && (
+                  {field.type !== 'checkbox' && field.type !== 'html' && (
                     <label className="block text-blue-600 font-gilroy-bold text-sm mb-2">
                       {field.label}
                       {field.required && <span className="text-red-500"> *</span>}
@@ -300,7 +359,7 @@ const DynamicForm = ({
                     </label>
                   )}
                   
-                  {field.description && (
+                  {field.description && field.type !== 'html' && (
                     <p className="text-blue-400 text-sm mb-2 font-gilroy-medium">
                       {field.description}
                     </p>
@@ -308,13 +367,13 @@ const DynamicForm = ({
 
                   {renderField(field)}
                   
-                  {field.maxLength && field.type === 'textarea' && (
+                  {field.maxLength && (field.type === 'textarea' || field.type === 'text') && formData[field.name] && (
                     <p className="text-blue-400 text-xs mt-1 text-right">
                       {formData[field.name]?.length || 0} / {field.maxLength}
                     </p>
                   )}
 
-                  {errors[field.name] && (
+                  {errors[field.name] && field.type !== 'html' && (
                     <p className="text-red-500 text-sm mt-2 font-gilroy-bold">
                       ✗ {errors[field.name]}
                     </p>

@@ -4,7 +4,7 @@ export const SponsorForm = () => {
   const sponsorFields = [
     {
       name: 'organizationName',
-      label: 'Organization Name',
+      label: 'Company/Organization Name',
       type: 'text',
       placeholder: 'Enter your organization name',
       required: true,
@@ -47,10 +47,16 @@ export const SponsorForm = () => {
       type: 'select',
       required: true,
       options: [
-        { value: 'INNOVATION_PARTNER_OF_THE_YEAR', label: 'INNOVATION PARTNER OF THE YEAR : 25 LAKHS' },
-        { value: 'INNOVATION_CATALYST', label: 'INNOVATION CATALYST : 15 LAKHS x 2' },
-        { value: 'TECHNOLOGY_ENABLER', label: 'TECHNOLOGY ENABLER : 10 LAKHS x 3' },
-        { value: 'OTHER', label: 'OTHER' }
+            { value: 'INNOVATION_PARTNER_OF_THE_YEAR', label: 'INNOVATION PARTNER OF THE YEAR : 25 LAKHS' },
+            { value: 'INNOVATION_CATALYST', label: 'INNOVATION CATALYST : 15 LAKHS x 2' },
+            { value: 'TECHNOLOGY_ENABLER', label: 'TECHNOLOGY ENABLER : 10 LAKHS x 3' },
+            { value: 'STARTUP_ENABLER', label: 'STARTUP ENABLER : 5 LAKHS x 6' },
+            { value: 'INNOVATION_SUPPORTER', label: 'INNOVATION SUPPORTER : 2.5 LAKHS x 4' },
+            { value: 'ECOSYSTEM_PARTNER', label: 'ECOSYSTEM PARTNER : 2 LAKHS x 2' },
+            { value: 'EVENT_COLLABORATOR', label: 'EVENT COLLABORATOR : 1 LAKHS x 20' },
+            { value: 'CAMPUS_INNOVATOR_PARTNER', label: 'CAMPUS INNOVATOR PARTNER : 0.5 LAKHS x 4' },
+            { value: 'SPECIAL_PATRON_PARTNER', label: 'SPECIAL PATRON PARTNER : 0.5 LAKHS x 2' },
+            { value: 'OTHER', label: 'OTHER' },
       ]
     },
     {
